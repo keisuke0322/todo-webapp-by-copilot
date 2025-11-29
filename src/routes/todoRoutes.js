@@ -4,9 +4,10 @@ const todoController = require('../controllers/todoController');
 
 // ToDo一覧表示
 router.get('/', (req, res) => {
-    const todos = todoController.getAll();
+    const dueDateOrder = req.query.sort === 'desc' ? 'desc' : 'asc';
+    const todos = todoController.getAll(dueDateOrder);
     const error = req.query.error;
-    res.render('index', { todos, error });
+    res.render('index', { todos, error, dueDateOrder });
 });
 
 // 新規作成フォーム表示

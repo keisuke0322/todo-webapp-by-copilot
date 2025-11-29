@@ -12,7 +12,16 @@
             <tr>
                 <th>タイトル</th>
                 <th>内容</th>
-                <th>期限</th>
+                <th class="sortable">
+                    <a href="/?sort=<%= dueDateOrder === 'asc' ? 'desc' : 'asc' %>" class="sort-link">
+                        期限
+                        <% if (dueDateOrder === 'asc') { %>
+                            <span class="sort-icon">▲</span>
+                        <% } else { %>
+                            <span class="sort-icon">▼</span>
+                        <% } %>
+                    </a>
+                </th>
                 <th>優先度</th>
                 <th>操作</th>
             </tr>

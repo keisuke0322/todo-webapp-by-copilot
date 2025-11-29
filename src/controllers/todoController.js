@@ -7,10 +7,12 @@ const db = require('../database');
 class TodoController {
     /**
      * 全てのToDoを取得
+     * @param {string} dueDateOrder - 期限のソート順 ('asc' or 'desc')
      * @returns {Array} ToDoリスト
      */
-    getAll() {
-        const stmt = db.prepare('SELECT * FROM todos ORDER BY priority ASC, due_date ASC');
+    getAll(dueDateOrder = 'asc') {
+        const order = dueDateOrder === 'desc' ? 'DESC' : 'ASC';
+        const stmt = db.prepare(`SELECT * FROM todos ORDER BY priority ASC, due_date ${order}`);
         return stmt.all();
     }
 
