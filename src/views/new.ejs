@@ -2,6 +2,10 @@
 
 <h2>新規ToDo作成</h2>
 
+<% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-error"><%= error %></div>
+<% } %>
+
 <form action="/" method="POST" class="todo-form">
     <div class="form-group">
         <label for="title">タイトル <span class="required">*</span></label>

@@ -25,6 +25,23 @@ class TodoController {
     }
 
     /**
+     * 入力値を検証
+     * @param {Object} todo - ToDo項目
+     * @returns {Object} 検証結果 { valid: boolean, errors: string[] }
+     */
+    validate(todo) {
+        const errors = [];
+        if (!todo.title || todo.title.trim() === '') {
+            errors.push('タイトルは必須です');
+        }
+        const priority = parseInt(todo.priority);
+        if (isNaN(priority) || priority < 1 || priority > 3) {
+            errors.push('優先度は1-3の範囲で指定してください');
+        }
+        return { valid: errors.length === 0, errors };
+    }
+
+    /**
      * 新しいToDoを作成
      * @param {Object} todo - ToDo項目
      * @param {string} todo.title - タイトル
@@ -34,10 +51,14 @@ class TodoController {
      * @returns {Object} 作成結果
      */
     create(todo) {
+        const validation = this.validate(todo);
+        if (!validation.valid) {
+            throw new Error(validation.errors.join(', '));
+        }
         const stmt = db.prepare(
             'INSERT INTO todos (title, content, due_date, priority) VALUES (?, ?, ?, ?)'
         );
-        const result = stmt.run(todo.title, todo.content, todo.due_date, todo.priority);
+        const result = stmt.run(todo.title.trim(), todo.content, todo.due_date, parseInt(todo.priority));
         return { id: result.lastInsertRowid, ...todo };
     }
 
@@ -48,10 +69,14 @@ class TodoController {
      * @returns {Object} 更新結果
      */
     update(id, todo) {
+        const validation = this.validate(todo);
+        if (!validation.valid) {
+            throw new Error(validation.errors.join(', '));
+        }
         const stmt = db.prepare(
             'UPDATE todos SET title = ?, content = ?, due_date = ?, priority = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
         );
-        const result = stmt.run(todo.title, todo.content, todo.due_date, todo.priority, id);
+        const result = stmt.run(todo.title.trim(), todo.content, todo.due_date, parseInt(todo.priority), id);
         return { changes: result.changes };
     }
 
