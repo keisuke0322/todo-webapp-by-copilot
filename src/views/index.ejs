@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+
+<div class="actions">
+    <a href="/new" class="btn btn-primary">新規ToDo作成</a>
+</div>
+
+<% if (todos.length === 0) { %>
+    <p class="empty-message">ToDoがありません。新しいToDoを作成してください。</p>
+<% } else { %>
+    <table class="todo-table">
+        <thead>
+            <tr>
+                <th>タイトル</th>
+                <th>内容</th>
+                <th class="sortable">
+                    <a href="/?sort=<%= dueDateOrder === 'asc' ? 'desc' : 'asc' %>" class="sort-link">
+                        期限
+                        <% if (dueDateOrder === 'asc') { %>
+                            <span class="sort-icon">▲</span>
+                        <% } else { %>
+                            <span class="sort-icon">▼</span>
+                        <% } %>
+                    </a>
+                </th>
+                <th>優先度</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% todos.forEach(todo => { %>
+                <tr class="priority-<%= todo.priority %>">
+                    <td><%= todo.title %></td>
+                    <td><%= todo.content || '-' %></td>
+                    <td><%= todo.due_date || '-' %></td>
+                    <td>
+                        <% if (todo.priority === 1) { %>
+                            <span class="priority high">高</span>
+                        <% } else if (todo.priority === 2) { %>
+                            <span class="priority medium">中</span>
+                        <% } else { %>
+                            <span class="priority low">低</span>
+                        <% } %>
+                    </td>
+                    <td class="actions-cell">
+                        <a href="/<%= todo.id %>/edit" class="btn btn-edit">編集</a>
+                        <form action="/<%= todo.id %>/delete" method="POST" class="delete-form">
+                            <button type="submit" class="btn btn-delete" onclick="return confirm('削除しますか？')">削除</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+<% } %>
+
+<%- include('partials/footer') %>
