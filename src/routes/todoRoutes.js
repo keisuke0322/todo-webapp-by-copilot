@@ -5,7 +5,7 @@ const todoController = require('../controllers/todoController');
 // ToDo一覧表示
 router.get('/', (req, res) => {
     const dueDateOrder = req.query.sort === 'desc' ? 'desc' : 'asc';
-    const priorityFilter = req.query.priority || null;
+    const priorityFilter = req.query.priority && req.query.priority !== '' ? req.query.priority : null;
     const todos = todoController.getAll(dueDateOrder, priorityFilter);
     const error = req.query.error;
     res.render('index', { todos, error, dueDateOrder, priorityFilter });

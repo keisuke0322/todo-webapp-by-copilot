@@ -5,9 +5,9 @@
 </div>
 
 <div class="filter-section">
-    <label for="priority-filter">優先度でフィルタ:</label>
+    <label>優先度でフィルタ:</label>
     <div class="filter-buttons">
-        <a href="/?sort=<%= dueDateOrder %>&priority=" class="btn btn-filter <%= !priorityFilter ? 'active' : '' %>">全て</a>
+        <a href="/?sort=<%= dueDateOrder %>&priority=" class="btn btn-filter <%= (!priorityFilter || priorityFilter === '') ? 'active' : '' %>">全て</a>
         <a href="/?sort=<%= dueDateOrder %>&priority=1" class="btn btn-filter <%= priorityFilter === '1' ? 'active' : '' %>">高</a>
         <a href="/?sort=<%= dueDateOrder %>&priority=2" class="btn btn-filter <%= priorityFilter === '2' ? 'active' : '' %>">中</a>
         <a href="/?sort=<%= dueDateOrder %>&priority=3" class="btn btn-filter <%= priorityFilter === '3' ? 'active' : '' %>">低</a>
