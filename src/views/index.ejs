@@ -4,6 +4,16 @@
     <a href="/new" class="btn btn-primary">新規ToDo作成</a>
 </div>
 
+<div class="filter-section">
+    <label>優先度でフィルタ:</label>
+    <div class="filter-buttons">
+        <a href="/?sort=<%= dueDateOrder %>&priority=" class="btn btn-filter <%= (!priorityFilter || priorityFilter === '') ? 'active' : '' %>">全て</a>
+        <a href="/?sort=<%= dueDateOrder %>&priority=1" class="btn btn-filter <%= priorityFilter === '1' ? 'active' : '' %>">高</a>
+        <a href="/?sort=<%= dueDateOrder %>&priority=2" class="btn btn-filter <%= priorityFilter === '2' ? 'active' : '' %>">中</a>
+        <a href="/?sort=<%= dueDateOrder %>&priority=3" class="btn btn-filter <%= priorityFilter === '3' ? 'active' : '' %>">低</a>
+    </div>
+</div>
+
 <% if (todos.length === 0) { %>
     <p class="empty-message">ToDoがありません。新しいToDoを作成してください。</p>
 <% } else { %>

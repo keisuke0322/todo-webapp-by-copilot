@@ -5,9 +5,10 @@ const todoController = require('../controllers/todoController');
 // ToDo一覧表示
 router.get('/', (req, res) => {
     const dueDateOrder = req.query.sort === 'desc' ? 'desc' : 'asc';
-    const todos = todoController.getAll(dueDateOrder);
+    const priorityFilter = req.query.priority && req.query.priority !== '' ? req.query.priority : null;
+    const todos = todoController.getAll(dueDateOrder, priorityFilter);
     const error = req.query.error;
-    res.render('index', { todos, error, dueDateOrder });
+    res.render('index', { todos, error, dueDateOrder, priorityFilter });
 });
 
 // 新規作成フォーム表示

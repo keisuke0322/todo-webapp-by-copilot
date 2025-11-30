@@ -8,12 +8,22 @@ class TodoController {
     /**
      * 全てのToDoを取得
      * @param {string} dueDateOrder - 期限のソート順 ('asc' or 'desc')
+     * @param {string|null} priorityFilter - 優先度フィルタ ('1', '2', '3', または null)
      * @returns {Array} ToDoリスト
      */
-    getAll(dueDateOrder = 'asc') {
+    getAll(dueDateOrder = 'asc', priorityFilter = null) {
         const order = dueDateOrder === 'desc' ? 'DESC' : 'ASC';
-        const stmt = db.prepare(`SELECT * FROM todos ORDER BY due_date ${order}, priority ASC`);
-        return stmt.all();
+        let query = 'SELECT * FROM todos';
+        const params = [];
+        
+        if (priorityFilter && ['1', '2', '3'].includes(priorityFilter)) {
+            query += ' WHERE priority = ?';
+            params.push(parseInt(priorityFilter));
+        }
+        
+        query += ` ORDER BY due_date ${order}, priority ASC`;
+        const stmt = db.prepare(query);
+        return params.length > 0 ? stmt.all(...params) : stmt.all();
     }
 
     /**
