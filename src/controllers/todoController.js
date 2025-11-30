@@ -12,7 +12,7 @@ class TodoController {
      */
     getAll(dueDateOrder = 'asc') {
         const order = dueDateOrder === 'desc' ? 'DESC' : 'ASC';
-        const stmt = db.prepare(`SELECT * FROM todos ORDER BY priority ASC, due_date ${order}`);
+        const stmt = db.prepare(`SELECT * FROM todos ORDER BY due_date ${order}, priority ASC`);
         return stmt.all();
     }
 
